@@ -38,7 +38,7 @@ jobs:
         run: dotnet build test/Soenneker.WorkOs.HttpClients.Tests/Soenneker.WorkOs.HttpClients.Tests.csproj --configuration Release --no-restore --verbosity minimal
 
       - name: Test
-        run: dotnet test test/Soenneker.WorkOs.HttpClients.Tests/Soenneker.WorkOs.HttpClients.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
+        run: dotnet test --project test/Soenneker.WorkOs.HttpClients.Tests/Soenneker.WorkOs.HttpClients.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
 
       - name: Pack
         run: dotnet pack src/Soenneker.WorkOs.HttpClients/Soenneker.WorkOs.HttpClients.csproj --configuration Release --no-build --no-restore --output . --verbosity minimal
