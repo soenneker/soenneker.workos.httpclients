@@ -1,20 +1,19 @@
 using Soenneker.WorkOs.HttpClients.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.WorkOs.HttpClients.Tests;
 
-[Collection("Collection")]
-public sealed class WorkOsOpenApiHttpClientTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public sealed class WorkOsOpenApiHttpClientTests : HostedUnitTest
 {
     private readonly IWorkOsOpenApiHttpClient _httpclient;
 
-    public WorkOsOpenApiHttpClientTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public WorkOsOpenApiHttpClientTests(Host host) : base(host)
     {
         _httpclient = Resolve<IWorkOsOpenApiHttpClient>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
