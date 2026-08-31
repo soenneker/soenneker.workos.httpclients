@@ -6,12 +6,12 @@ using Soenneker.Utils.HttpClientCache.Registrar;
 namespace Soenneker.WorkOs.HttpClients.Registrars;
 
 /// <summary>
-/// Registers the OpenAPI HttpClient wrapper for dependency injection.
+/// Registers the WorkOS API HTTP client provider.
 /// </summary>
 public static class WorkOsOpenApiHttpClientRegistrar
 {
     /// <summary>
-    /// Adds <see cref="WorkOsOpenApiHttpClient"/> as a singleton service. <para/>
+    /// Adds the WorkOS HTTP client provider as a singleton service.
     /// </summary>
     public static IServiceCollection AddWorkOsOpenApiHttpClientAsSingleton(this IServiceCollection services)
     {
@@ -22,7 +22,7 @@ public static class WorkOsOpenApiHttpClientRegistrar
     }
 
     /// <summary>
-    /// Adds <see cref="WorkOsOpenApiHttpClient"/> as a scoped service. <para/>
+    /// Adds the WorkOS HTTP client provider as a scoped service.
     /// </summary>
     public static IServiceCollection AddWorkOsOpenApiHttpClientAsScoped(this IServiceCollection services)
     {

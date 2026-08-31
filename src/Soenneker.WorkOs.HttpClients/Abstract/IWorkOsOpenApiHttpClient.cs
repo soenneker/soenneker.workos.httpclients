@@ -6,14 +6,14 @@ using System.Threading;
 namespace Soenneker.WorkOs.HttpClients.Abstract;
 
 /// <summary>
-/// A .NET thread-safe singleton HttpClient for 
+/// Provides a cached <see cref="HttpClient"/> configured for the WorkOS API.
 /// </summary>
-public interface IWorkOsOpenApiHttpClient: IDisposable, IAsyncDisposable
+public interface IWorkOsOpenApiHttpClient : IDisposable, IAsyncDisposable
 {
     /// <summary>
-    /// Gets the value.
+    /// Gets the configured WorkOS API client.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
+    /// <returns>The cached HTTP client.</returns>
     ValueTask<HttpClient> Get(CancellationToken cancellationToken = default);
 }

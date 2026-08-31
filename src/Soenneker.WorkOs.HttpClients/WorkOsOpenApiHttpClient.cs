@@ -16,8 +16,9 @@ public sealed class WorkOsOpenApiHttpClient : IWorkOsOpenApiHttpClient
 {
     private readonly IHttpClientCache _httpClientCache;
     private readonly IConfiguration _config;
+    private readonly string _cacheKey = $"{nameof(WorkOsOpenApiHttpClient)}-{Guid.NewGuid():N}";
 
-    private const string _prodBaseUrl = "https://api.workos.com";
+    private const string _prodBaseUrl = "https://api.workos.com/";
 
     public WorkOsOpenApiHttpClient(IHttpClientCache httpClientCache, IConfiguration config)
     {
@@ -27,11 +28,11 @@ public sealed class WorkOsOpenApiHttpClient : IWorkOsOpenApiHttpClient
 
     public ValueTask<HttpClient> Get(CancellationToken cancellationToken = default)
     {
-        return _httpClientCache.Get(nameof(WorkOsOpenApiHttpClient), (config: _config, baseUrl: _config["WorkOs:ClientBaseUrl"] ?? _prodBaseUrl), static state =>
+        return _httpClientCache.Get(_cacheKey, (config: _config, baseUrl: _config["WorkOs:ClientBaseUrl"] ?? _prodBaseUrl), static state =>
         {
             var apiKey = state.config.GetValueStrict<string>("WorkOs:ApiKey");
-            string authHeaderName = state.config["WorkOs:AuthHeaderName"] ?? "Bearer {token}";
-            string authHeaderValueTemplate = state.config["WorkOs:AuthHeaderValueTemplate"] ?? "{token}";
+            string authHeaderName = state.config["WorkOs:AuthHeaderName"] ?? "Authorization";
+            string authHeaderValueTemplate = state.config["WorkOs:AuthHeaderValueTemplate"] ?? "Bearer {token}";
             string authHeaderValue = authHeaderValueTemplate.Replace("{token}", apiKey, StringComparison.Ordinal);
 
             return new HttpClientOptions
@@ -45,20 +46,13 @@ public sealed class WorkOsOpenApiHttpClient : IWorkOsOpenApiHttpClient
         }, cancellationToken);
     }
 
-    /// <summary>
-    /// Releases resources used by the current instance.
-    /// </summary>
     public void Dispose()
     {
-        _httpClientCache.RemoveSync(nameof(WorkOsOpenApiHttpClient));
+        _httpClientCache.RemoveSync(_cacheKey);
     }
 
-    /// <summary>
-    /// Asynchronously releases resources used by the current instance.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask DisposeAsync()
     {
-        return _httpClientCache.Remove(nameof(WorkOsOpenApiHttpClient));
+        return _httpClientCache.Remove(_cacheKey);
     }
 }
