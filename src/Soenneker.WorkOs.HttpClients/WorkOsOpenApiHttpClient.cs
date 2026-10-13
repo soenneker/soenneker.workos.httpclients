@@ -30,7 +30,7 @@ public sealed class WorkOsOpenApiHttpClient : IWorkOsOpenApiHttpClient
     {
         return _httpClientCache.Get(_cacheKey, (config: _config, baseUrl: _config["WorkOs:ClientBaseUrl"] ?? _prodBaseUrl), static state =>
         {
-            var apiKey = state.config.GetValueStrict<string>("WorkOs:ApiKey");
+            var apiKey = state.config.GetStringStrict("WorkOs:ApiKey");
             string authHeaderName = state.config["WorkOs:AuthHeaderName"] ?? "Authorization";
             string authHeaderValueTemplate = state.config["WorkOs:AuthHeaderValueTemplate"] ?? "Bearer {token}";
             string authHeaderValue = authHeaderValueTemplate.Replace("{token}", apiKey, StringComparison.Ordinal);
